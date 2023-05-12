@@ -1,4 +1,4 @@
-module github.com/amit177/go-evocative~pay/v2
+module github.com/amit177/go-evocative-pay/v2
 
 go 1.18
 
