@@ -1,12 +1,11 @@
 default:
-	go build -o cmd/
+	go build -ldflags="-s -w" -o cmd/
 
 windows:
-	GOOS=windows go build -o cmd/
-	strip -s cmd/
+	GOOS=windows go build -ldflags="-s -w" -o cmd/
 
 linux:
-	GOOS=linux go build -o cmd/
+	GOOS=linux go build -ldflags="-s -w" -o cmd/
 
 run:
 	go run main.go
