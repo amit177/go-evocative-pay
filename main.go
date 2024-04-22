@@ -211,6 +211,7 @@ func vplsListUnpaidInvoices(client *http.Client) (invoices []vplsInvoice) {
 	}
 }
 
+// vplsLogin is deprecated, cloudflare authorization is now required
 func vplsLogin(client *http.Client, username, password string) {
 	data := make(url.Values)
 	data.Set("login", username)
@@ -260,12 +261,11 @@ func main() {
 	}
 
 	log.Println("Welcome to the program that allows you to pay your VPLS invoice! yes, seriously.")
-	// login
-	username := getInput("Username: ", false)
-	password := getInput("Password: ", true)
 
-	log.Println("Logging in...")
-	vplsLogin(client, username, password)
+	cookieInput := getInput("evocative_session cookie: ", false)
+	var cookies []*http.Cookie
+	cookies = append(cookies, &http.Cookie{Name: "evocative_session", Value: cookieInput, Expires: time.Now().Add(1 * time.Hour)})
+	jar.SetCookies(&url.URL{Scheme: "https", Host: "my.evocative.com"}, cookies)
 
 	log.Println("Fetching unpaid invoices...")
 	invoices := vplsListUnpaidInvoices(client)
